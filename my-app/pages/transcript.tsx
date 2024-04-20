@@ -15,7 +15,7 @@ export default function Transcript() {
     setLoading(true); // Start loading
 
     try {
-      const response = await fetch('http://localhost:5001/auth/video-download', {
+      const response = await fetch('http://18.208.178.78:5001/auth/video-download', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

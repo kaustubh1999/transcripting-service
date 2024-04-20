@@ -63,12 +63,10 @@ p {
   padding: 20px;
   background-color: #f9f9f9;
   overflow-y: scroll;
-  max-height: 2000px; /* Remove the maximum height restriction */
+  max-height: 2000px;
 }
 
-#transcriptionResult{
-  overflow-y: auto;
-}
+
 
 
 
