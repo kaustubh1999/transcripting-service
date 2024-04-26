@@ -114,8 +114,8 @@ const DataTablePage: React.FC = () => {
             <DataGrid
               rows={rows}
               columns={columns}
-              pageSize={5}
-              rowsPerPageOptions={[5, 10, 20]}
+            //   pageSize={5}
+            //   rowsPerPageOptions={[5, 10, 20]}
               getRowId={(row) => row._id} // Specify the custom id for each row
             />
             <Modal open={!!selectedRow} onClose={handleCloseModal}>
