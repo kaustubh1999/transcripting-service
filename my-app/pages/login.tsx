@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 
 const Login: React.FC = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter(); // Initialize router
 
@@ -11,12 +11,12 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://18.208.178.78:5001/login', {
+      const response = await fetch('https://35.175.25.7/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
       });
 
       if (response.ok) {
@@ -31,7 +31,7 @@ const Login: React.FC = () => {
   }
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
+    setEmail(e.target.value);
   }
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,8 +48,8 @@ const Login: React.FC = () => {
         <h1 className="text-3xl font-bold text-center mb-4">Login</h1>
         <form className="login-form" onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="username" className="block text-sm font-semibold">Username or Email:</label>
-            <input type="text" id="username" name="username" className="input-box" placeholder="Enter your email or username" onChange={handleUsernameChange} />
+            <label htmlFor="email" className="block text-sm font-semibold">Email:</label>
+            <input type="text" id="email" name="email" className="input-box" placeholder="Enter your email or username" onChange={handleUsernameChange} />
           </div>
           <div>
             <label htmlFor="password" className="block text-sm font-semibold">Password:</label>
