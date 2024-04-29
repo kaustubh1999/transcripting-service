@@ -46,12 +46,12 @@ const DataTablePage: React.FC = () => {
     }
   };
 
-  const handleEditUser = (rowData) => {
+  const handleEditUser = (rowData:any) => {
     setOpenEditModal(true);
     setNewUserData({ ...rowData });
   };
   
-  const handleDeleteUser = async (rowData) => {
+  const handleDeleteUser = async (rowData:any) => {
     setNewUserData({ ...rowData });
     const token = localStorage.getItem('accessToken');
     const response = await axios.post('https://35.175.25.7/auth/delete-user',rowData,
