@@ -10,6 +10,7 @@ export default function Transcript() {
 
   function formatTranscription(transcription: any) {
     try {
+      console.log("transxcription====",transcription)
         // Extracting the title from the transcription
         const titleMatch = transcription.match(/Title:(.*)/);
         const title = titleMatch ? titleMatch[1].trim() : "Untitled"; // Using "Untitled" if no title is found
@@ -43,17 +44,22 @@ export default function Transcript() {
     }
 }
 
-
+const handleSignOut = () => {
+  localStorage.removeItem('accessToken'); // Remove token from localStorage
+  router.push('/login');
+};
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true); // Start loading
+    setLoading(true); 
+    const token = localStorage.getItem('accessToken');
 
     try {
       const response = await fetch('https://35.175.25.7/users/generate-article', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `${token}`
         },
         body: JSON.stringify({ youtubeUrl })
       });
@@ -65,7 +71,7 @@ export default function Transcript() {
         console.error('Transcription failed');
       }
     } catch (error) {
-      console.error('Error during transcription:', error);
+      alert('Something Went Wrong');
     } finally {
       setLoading(false); // Stop loading
     }
@@ -88,9 +94,9 @@ export default function Transcript() {
   <button className="chat-history-button" onClick={handleChatHistoryClick}>
     Click to See Your Chat History
   </button>
-  <button className="sign-out-button" onClick={() => router.push('/login')}>
-    Sign Out
-  </button>
+  <button className="sign-out-button" onClick={handleSignOut}>
+  Sign Out
+</button>
 </div>
 
       <form onSubmit={handleSubmit}>

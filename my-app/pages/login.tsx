@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -19,14 +20,24 @@ const Login: React.FC = () => {
         body: JSON.stringify({ email, password })
       });
 
+      const responseData = await response.json();
+
       if (response.ok) {
+        localStorage.setItem('accessToken', responseData.data.accessToken);
         console.log('Authentication successful');
+
+        if(responseData.data.role == 'user'){
         router.push('/transcript');
+        }else{
+          router.push('/admin-chat-history');
+
+        }
       } else {
+        alert('Authentication Failed')
         console.error('Authentication failed');
       }
     } catch (error) {
-      console.error('Error during login:', error);
+      alert('Invalid Credentials');
     }
   }
 

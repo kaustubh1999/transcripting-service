@@ -19,15 +19,24 @@ const DataTablePage: React.FC = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://35.175.25.7/auth/chat-history');
+      const token = localStorage.getItem('accessToken');
+      console.log("token===",token)
+      const response = await axios.get('https://35.175.25.7/auth/chat-history',
+      {
+        headers: {
+          Authorization: `${token}`
+        }
+      });
+
+
       setRows(response.data.data.chats.map((row: any) => ({
         ...row,
         createdAt: formatDateTime(new Date(row.createdAt)), // Format date
       })));
-      setLoading(false); // Update loading state once data is fetched
+      setLoading(false); 
     } catch (error) {
       console.error('Error fetching data:', error);
-      setLoading(false); // Update loading state in case of error
+      setLoading(false); 
     }
   };
 
@@ -88,6 +97,7 @@ const DataTablePage: React.FC = () => {
   };
 
   const handleSignOut = () => {
+    localStorage.removeItem('accessToken');
     router.push('/login');
   };
 
@@ -111,13 +121,17 @@ const DataTablePage: React.FC = () => {
           </div>
         ) : (
           <>
-            <DataGrid
-              rows={rows}
-              columns={columns}
-            //   pageSize={5}
-            //   rowsPerPageOptions={[5, 10, 20]}
-              getRowId={(row) => row._id} // Specify the custom id for each row
-            />
+            {rows.length === 0 ? (
+              <Typography variant="body1" align="center">
+                No History Found
+              </Typography>
+            ) : (
+              <DataGrid
+                rows={rows}
+                columns={columns}
+                getRowId={(row) => row._id} 
+              />
+            )}
             <Modal open={!!selectedRow} onClose={handleCloseModal}>
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '20px', maxHeight: '80vh', overflowY: 'auto' }}>
                 <Typography variant="h6" gutterBottom>
@@ -130,6 +144,7 @@ const DataTablePage: React.FC = () => {
       </div>
     </div>
   );
+  
 };
 
 export default DataTablePage;
