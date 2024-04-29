@@ -116,7 +116,13 @@ const DataTablePage: React.FC = () => {
 
   const handleSaveUser = async () => {
     try {
-      const response = await axios.post('https://35.175.25.7/auth/add-user', newUserData);
+      console.log("newUserData====",newUserData)
+      const token = localStorage.getItem('accessToken');
+      const response = await axios.post('http://localhost:5001/auth/add-user', newUserData,{
+        headers:{
+          Authorization:`${token}`
+        }
+      });
       console.log('User created:', response.data);
       fetchData();
       handleCloseModal();
